@@ -1,6 +1,34 @@
 import { create } from "zustand";
+import {
+  Feature,
+  FeatureCollection,
+  Geometry,
+  GeoJsonProperties,
+} from "geojson";
 
 type Coordinate = [number, number]; // [longitude, latitude]
+
+interface GeoJSONFeature {
+  geometry: {
+    coordinates: [number, number, number][] | [number, number, number];
+    type: "LineString" | "Point";
+  };
+  properties: {
+    name?: string;
+    route_id?: number;
+    stroke?: string;
+    "marker-color"?: string;
+    "marker-size"?: string;
+    "marker-symbol"?: string;
+    point_type?: "start" | "end";
+  };
+  type: "Feature";
+}
+
+interface GeoJSONData {
+  features: GeoJSONFeature[];
+  type: "FeatureCollection";
+}
 
 interface RouteStore {
   from: {
@@ -21,6 +49,7 @@ interface RouteStore {
     cost: number;
   }[];
   coordinates: Coordinate[];
+  geoJSON: FeatureCollection;
   setRouteData: (data: any) => void;
 }
 
@@ -38,6 +67,10 @@ export const useRouteStore = create<RouteStore>((set) => ({
   transferRange: 0,
   routes: [],
   coordinates: [],
+  geoJSON: {
+    type: "FeatureCollection",
+    features: [],
+  },
   setRouteData: (data) => {
     set({
       from: {
@@ -58,6 +91,7 @@ export const useRouteStore = create<RouteStore>((set) => ({
         cost: route["Transfer Cost"],
       })),
       coordinates: data.Coordinates,
+      geoJSON: data.GeoJSON,
     });
   },
 }));

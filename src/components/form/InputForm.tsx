@@ -46,7 +46,18 @@ const InputForm = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log("clicked");
+
     try {
+      // Clear existing route data
+      usePathStore.setRouteData({
+        From: { Lattitude: 0, Longitude: 0, "Origin Name": "" },
+        To: { Lattitude: 0, Longitude: 0, "Destination Name": "" },
+        "Transfer Range": 0,
+        Routes: [],
+        Coordinates: [],
+        GeoJSON: { type: "FeatureCollection", features: [] },
+      });
+
       const queryParams = new URLSearchParams({
         fromLat: values.originLat,
         fromLong: values.originLng,

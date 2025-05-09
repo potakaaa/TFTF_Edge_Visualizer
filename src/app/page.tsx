@@ -38,3 +38,5 @@ const page = () => {
 export default page;
 
 // ./algo 8.487358 124.629950 "Patag Camp Evangelista" 8.484763 124.655977 "USTP" 100 10
+
+// http://127.0.0.1:8000/api/routes?fromLat=8.50881&fromLong=124.64827&fromName=Bonbon&toLat=8.51133&toLong=124.62429&toName=Westbound Bulua Terminal&transMeter=100.50&hour=10
