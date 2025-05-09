@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TFTF Edge Visualizer
 
-## Getting Started
+A Next.js web app for visualizing the TFTF (Temporal Flexible Transfer and Fare) Edge data structure and its routing algorithm, developed to support urban transit modeling and research.
 
-First, run the development server:
+## 🚀 Overview
+
+**TFTF Edge Visualizer** provides an interactive interface to visualize and understand how the TFTF Edge algorithm models jeepney routes, transfers, and fare systems. This tool aids in debugging, demonstration, and research related to flexible route systems, especially in urban public transportation networks.
+
+## 📦 Features
+
+- ✅ Visual representation of TFTF edges and node connections  
+- ✅ Simulation of dynamic routing and transfers  
+- ✅ Step-by-step route finding and fare computation visualization  
+- ✅ Interactive map/grid (optional) for city-specific transit layouts  
+- ✅ Supports real-time or mock data from the TFTF API
+
+## 🛠 Tech Stack
+
+- **Frontend**: [Next.js](https://nextjs.org/), [React](https://react.dev/)
+- **Styling**: Tailwind CSS, ShadCN UI  
+- **Visualization**: (Optional) D3.js / Leaflet.js / Visx (based on your use)  
+- **API Integration**: REST API or WebSocket support with backend (FastAPI / Flask)
+
+## 🧠 Background
+
+TFTF Edge is a custom data structure and algorithm developed for modeling **flexible jeepney routes** in cities like **Cagayan de Oro**, Philippines. It handles:
+
+- Temporal factors (schedules, wait times)
+- Transfer paths between multiple routes
+- Fare computation based on distance and route types
+
+This visualizer helps researchers, students, and developers understand and test the algorithm behavior with visual feedback.
+
+## 📸 Screenshots
+
+> *(Insert screenshots or gifs of the visualizer here)*
+
+## 📂 Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+/
+├── components/          # Reusable UI components
+├── pages/               # Next.js pages
+├── lib/                 # Utility functions and API logic
+├── styles/              # Tailwind or global styles
+├── public/              # Static assets
+└── README.md
