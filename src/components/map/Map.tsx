@@ -1,17 +1,10 @@
 "use client";
 
 import React, { useEffect } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Polyline,
-  GeoJSON,
-} from "react-leaflet";
+import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { FeatureCollection, Feature, Point, LineString } from "geojson";
+import { FeatureCollection } from "geojson";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -23,18 +16,10 @@ L.Icon.Default.mergeOptions({
 type MapProps = {
   center: [number, number];
   zoom?: number;
-  markers?: {
-    position: [number, number];
-    popup: string;
-  }[];
-  path?: {
-    lat: number;
-    lng: number;
-  }[];
-  geoJsonPath?: GeoJSON.Feature | GeoJSON.FeatureCollection;
+  geoJsonPath?: FeatureCollection;
 };
 
-const Map = ({ center, zoom = 13, markers, path, geoJsonPath }: MapProps) => {
+const Map = ({ center, zoom = 13, geoJsonPath }: MapProps) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       import("leaflet");
@@ -42,7 +27,7 @@ const Map = ({ center, zoom = 13, markers, path, geoJsonPath }: MapProps) => {
   }, []);
 
   const onEachFeature = (feature: any, layer: L.Layer) => {
-    if (feature.properties && feature.properties.name) {
+    if (feature.properties?.name) {
       layer.bindPopup(feature.properties.name);
     }
   };
@@ -65,20 +50,16 @@ const Map = ({ center, zoom = 13, markers, path, geoJsonPath }: MapProps) => {
     };
   };
 
-  // Separate Point and LineString features
-  const pointFeatures =
-    geoJsonPath?.type === "FeatureCollection"
-      ? (geoJsonPath as FeatureCollection).features.filter(
-          (f) => f.geometry.type === "Point"
-        )
-      : [];
-
-  const lineFeatures =
-    geoJsonPath?.type === "FeatureCollection"
-      ? (geoJsonPath as FeatureCollection).features.filter(
-          (f) => f.geometry.type === "LineString"
-        )
-      : [];
+  const pointToLayer = (feature: any, latlng: L.LatLng) => {
+    return L.circleMarker(latlng, {
+      radius: 8,
+      fillColor: feature.properties["marker-color"] || "#000",
+      color: feature.properties["marker-color"] || "#000",
+      weight: 2,
+      opacity: 1,
+      fillOpacity: 1,
+    });
+  };
 
   return (
     <MapContainer
@@ -91,53 +72,14 @@ const Map = ({ center, zoom = 13, markers, path, geoJsonPath }: MapProps) => {
         attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
         url="https://api.maptiler.com/maps/basic-v2-light/{z}/{x}/{y}.png?key=SlZNxUiHmBSoWZ1YUoLb"
       />
-      {/* {markers?.map((marker, i) => (
-        <Marker key={i} position={marker.position}>
-          {marker.popup && <Popup>{marker.popup}</Popup>}
-        </Marker>
-      ))} */}
 
-      {/* Render LineString features */}
-      {lineFeatures.length > 0 && (
+      {geoJsonPath && (
         <GeoJSON
-          data={
-            {
-              type: "FeatureCollection",
-              features: lineFeatures,
-            } as FeatureCollection
-          }
+          data={geoJsonPath}
           style={style}
           onEachFeature={onEachFeature}
-          coordsToLatLng={(coords) => {
-            return L.latLng(coords[1], coords[0]);
-          }}
-        />
-      )}
-
-      {/* Render Point features */}
-      {pointFeatures.length > 0 && (
-        <GeoJSON
-          data={
-            {
-              type: "FeatureCollection",
-              features: pointFeatures,
-            } as FeatureCollection
-          }
-          style={style}
-          onEachFeature={onEachFeature}
-          pointToLayer={(feature, latlng) => {
-            return L.circleMarker(latlng, {
-              radius: 8,
-              fillColor: feature.properties["marker-color"] || "#000",
-              color: feature.properties["marker-color"] || "#000",
-              weight: 2,
-              opacity: 1,
-              fillOpacity: 1,
-            });
-          }}
-          coordsToLatLng={(coords) => {
-            return L.latLng(coords[1], coords[0]);
-          }}
+          pointToLayer={pointToLayer}
+          coordsToLatLng={(coords) => L.latLng(coords[1], coords[0])}
         />
       )}
     </MapContainer>
