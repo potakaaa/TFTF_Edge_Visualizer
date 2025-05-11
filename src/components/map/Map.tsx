@@ -5,7 +5,9 @@ import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { FeatureCollection } from "geojson";
+import FitBoundsGeoJSON from "./FitBoundsGeoJSON";
 
+// Fix for marker icons
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconUrl: "/leaflet/images/marker-icon.png",
@@ -27,34 +29,42 @@ const Map = ({ center, zoom = 13, geoJsonPath }: MapProps) => {
   }, []);
 
   const onEachFeature = (feature: any, layer: L.Layer) => {
-    if (feature.properties?.name) {
-      layer.bindPopup(feature.properties.name);
+    // Ensure all layers are interactive
+    (layer as any).options.interactive = true;
+
+    if (feature.properties?.route_name || feature.properties?.marker) {
+      const label =
+        feature.properties.route_name || feature.properties.marker || "Info";
+
+      layer.bindTooltip(label, {
+        direction: "top",
+        opacity: 0.9,
+        permanent: false,
+        sticky: true,
+      });
+
+      // Explicit hover behavior (for LineStrings especially)
+      layer.on("mouseover", function (this: L.Layer) {
+        this.openTooltip();
+      });
+      layer.on("mouseout", function (this: L.Layer) {
+        this.closeTooltip();
+      });
     }
   };
 
   const style = (feature: any) => {
-    if (feature.geometry.type === "Point") {
-      return {
-        color: feature.properties["marker-color"] || "#000",
-        fillColor: feature.properties["marker-color"] || "#000",
-        fillOpacity: 1,
-        radius: 8,
-        weight: 2,
-      };
-    }
-
     return {
       color: feature.properties.stroke || "#1b1c1c",
       weight: 3,
       opacity: 1,
+      interactive: true,
     };
   };
 
   const pointToLayer = (feature: any, latlng: L.LatLng) => {
     return L.circleMarker(latlng, {
       radius: 8,
-      fillColor: feature.properties["marker-color"] || "#000",
-      color: feature.properties["marker-color"] || "#000",
       weight: 2,
       opacity: 1,
       fillOpacity: 1,
@@ -69,18 +79,25 @@ const Map = ({ center, zoom = 13, geoJsonPath }: MapProps) => {
       className="size-full rounded-2xl w-full shadow-xl z-0 border-2 border-muted-foreground"
     >
       <TileLayer
-        attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-        url="https://api.maptiler.com/maps/basic-v2-light/{z}/{x}/{y}.png?key=SlZNxUiHmBSoWZ1YUoLb"
+        attribution='<a href="https://www.maptiler.com/copyright/
+" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright
+" target="_blank">&copy; OpenStreetMap contributors</a>'
+        url="https://api.maptiler.com/maps/basic-v2-light/{z}/{x}/{y}.png?key=SlZNxUiHmBSoWZ1YUoLb
+"
       />
 
       {geoJsonPath && (
-        <GeoJSON
-          data={geoJsonPath}
-          style={style}
-          onEachFeature={onEachFeature}
-          pointToLayer={pointToLayer}
-          coordsToLatLng={(coords) => L.latLng(coords[1], coords[0])}
-        />
+        <>
+          <GeoJSON
+            key={JSON.stringify(geoJsonPath)}
+            data={geoJsonPath}
+            style={style}
+            onEachFeature={onEachFeature}
+            pointToLayer={pointToLayer}
+            coordsToLatLng={(coords) => L.latLng(coords[1], coords[0])}
+          />
+          <FitBoundsGeoJSON geoJson={geoJsonPath} />
+        </>
       )}
     </MapContainer>
   );

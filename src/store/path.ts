@@ -6,6 +6,8 @@ interface RouteStore {
   geojson: FeatureCollection;
   route_names: string[];
   setRouteData: (data: any) => void;
+  dropMode: "none" | "start" | "end";
+  setDropMode: (mode: "none" | "start" | "end") => void;
 }
 
 export const useRouteStore = create<RouteStore>((set) => ({
@@ -21,5 +23,9 @@ export const useRouteStore = create<RouteStore>((set) => ({
       geojson: data.geojson ?? { type: "FeatureCollection", features: [] },
       route_names: data.route_names ?? [],
     });
+  },
+  dropMode: "none",
+  setDropMode: (mode) => {
+    set({ dropMode: mode });
   },
 }));

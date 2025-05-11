@@ -21,10 +21,8 @@ const page = () => {
         <p className="text-sm max-w-lg text-center">
           TFTF Edge is a novel data structure that models{" "}
           <strong>flexible public transport routes</strong> by capturing{" "}
-          <strong>
-            dynamic transfers, time schedules, and fare computations
-          </strong>{" "}
-          in a unified graph-based system.
+          <strong>dynamic transfers, stops, and fare computations</strong> in a
+          unified graph-based system.
         </p>
       </section>
       <div className="w-full h-[500px] max-w-screen-lg my-3">
