@@ -2,6 +2,7 @@ import React from "react";
 import ClientMapWrapper from "@/components/map/MapContainer";
 import { cn } from "@/lib/utils";
 import InputForm from "@/components/form/InputForm";
+import FormRenderer from "@/components/form/FormRenderer";
 
 const page = () => {
   return (
@@ -28,7 +29,7 @@ const page = () => {
       <div className="w-full h-[500px] max-w-screen-lg my-3">
         <ClientMapWrapper />
       </div>
-      <InputForm />
+      <FormRenderer />
     </div>
   );
 };

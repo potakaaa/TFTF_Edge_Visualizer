@@ -15,6 +15,7 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useRouteStore } from "@/store/path";
+import { getRouteData } from "@/services/route_service";
 
 const formSchema = z.object({
   originLat: z.string(),
@@ -49,12 +50,16 @@ const InputForm = () => {
         toLat: values.destinationLat,
         toLong: values.destinationLng,
       });
-
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/routes?${queryParams}`
+      const data = getRouteData(
+        {
+          lat: parseFloat(values.originLat),
+          lng: parseFloat(values.originLng),
+        },
+        {
+          lat: parseFloat(values.destinationLat),
+          lng: parseFloat(values.destinationLng),
+        }
       );
-
-      const data = await response.json();
       console.log("Route data:", data);
       usePathStore.setRouteData(data);
     } catch (error) {
