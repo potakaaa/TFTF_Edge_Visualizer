@@ -10,12 +10,14 @@ export default function DropModeButtons() {
   return (
     <div className="flex gap-2">
       <Button
+        className="z-20"
         variant={dropMode === "start" ? "default" : "outline"}
         onClick={() => setDropMode("start")}
       >
         Set Start
       </Button>
       <Button
+        className="z-20"
         variant={dropMode === "end" ? "default" : "outline"}
         onClick={() => setDropMode("end")}
       >
