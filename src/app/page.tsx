@@ -19,6 +19,9 @@ const page = () => {
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black" />
       <section className="z-10 flex flex-col items-center justify-center gap-2">
         <h1 className="text-4xl font-bold">TFTF Edge Visualizer</h1>
+        <p className="font-light text-sm mb-4">
+          by Helbiro, Del Mundo, Narisma
+        </p>
         <p className="text-sm max-w-lg text-center">
           TFTF Edge is a novel data structure that models{" "}
           <strong>flexible public transport routes</strong> by capturing{" "}
