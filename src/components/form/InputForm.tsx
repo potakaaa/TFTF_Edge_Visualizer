@@ -50,7 +50,7 @@ const InputForm = () => {
         toLat: values.destinationLat,
         toLong: values.destinationLng,
       });
-      const data = getRouteData(
+      const data = await getRouteData(
         {
           lat: parseFloat(values.originLat),
           lng: parseFloat(values.originLng),
