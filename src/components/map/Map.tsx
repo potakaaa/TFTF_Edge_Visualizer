@@ -242,7 +242,7 @@ const Map = ({ center, zoom = 13, geoJsonPath }: MapProps) => {
 
   return (
     <>
-      <h1>FARE: {fare}</h1>
+      <h1 className="font-medium z-30">FARE: ₱ {fare}</h1>
       <style>{routeAnimationStyles}</style>
       <MapContainer
         center={center}

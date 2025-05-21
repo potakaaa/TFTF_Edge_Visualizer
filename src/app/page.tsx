@@ -29,10 +29,12 @@ const page = () => {
           unified graph-based system.
         </p>
       </section>
-      <div className="w-full h-[500px] max-w-screen-lg my-3 items-center justify-center">
-        <ClientMapWrapper />
-      </div>
-      <FormRenderer />
+      <section className="flex flex-col items-center justify-center gap-14 w-full">
+        <div className="w-full h-[500px] max-w-screen-lg my-3 items-center justify-center">
+          <ClientMapWrapper />
+        </div>
+        <FormRenderer />
+      </section>
     </div>
   );
 };
