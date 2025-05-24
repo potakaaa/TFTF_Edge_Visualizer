@@ -164,7 +164,7 @@ const style = (feature: any) => {
 
 const Map = ({ center, zoom = 13, geoJsonPath }: MapProps) => {
   const dropMode = useRouteStore((s) => s.dropMode);
-  const { setRouteData, fare } = useRouteStore((s) => s);
+  const { setRouteData } = useRouteStore((s) => s);
 
   const [startPoint, setStartPoint] = useState<L.LatLng | null>(null);
   const [endPoint, setEndPoint] = useState<L.LatLng | null>(null);
@@ -242,7 +242,6 @@ const Map = ({ center, zoom = 13, geoJsonPath }: MapProps) => {
 
   return (
     <>
-      <h1 className="font-medium z-30">FARE: ₱ {fare}</h1>
       <style>{routeAnimationStyles}</style>
       <MapContainer
         center={center}

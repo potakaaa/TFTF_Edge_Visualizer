@@ -6,7 +6,7 @@ import FormRenderer from "@/components/form/FormRenderer";
 
 const page = () => {
   return (
-    <div className="flex items-center justify-center flex-col gap-4 p-10">
+    <div className="flex flex-col justify-center items-center gap-4 p-10">
       <div
         className={cn(
           "absolute inset-0",
@@ -16,22 +16,23 @@ const page = () => {
         )}
       />
       {/* Radial gradient for the container to give a faded look */}
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black" />
-      <section className="z-10 flex flex-col items-center justify-center gap-2">
-        <h1 className="text-4xl font-bold">TFTF Edge Visualizer</h1>
-        <p className="font-light text-sm mb-4">
+      <div className="absolute inset-0 flex justify-center items-center bg-white dark:bg-black pointer-events-none [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+      <section className="z-10 flex flex-col justify-center items-center gap-2">
+        <h1 className="font-bold text-4xl">TFTF Edge Visualizer</h1>
+        <p className="mb-4 font-light text-sm">
           by Helbiro, Del Mundo, Narisma
         </p>
-        <p className="text-sm max-w-lg text-center">
+        <p className="max-w-lg text-sm text-center">
           TFTF Edge is a novel data structure that models{" "}
           <strong>flexible public transport routes</strong> by capturing{" "}
           <strong>dynamic transfers, stops, and fare computations</strong> in a
           unified graph-based system.
         </p>
       </section>
-      <section className="flex flex-col items-center justify-center gap-14 w-full">
-        <div className="w-full h-[500px] max-w-screen-lg my-3 items-center justify-center">
+      <section className="flex flex-col justify-center items-center gap-14 w-full">
+        <div className="flex flex-col justify-center items-center my-3 w-full max-w-screen-xl h-[500px]">
           <ClientMapWrapper />
+          <div className="flex flex-col justify-center items-center gap-2"></div>
         </div>
         <FormRenderer />
       </section>
